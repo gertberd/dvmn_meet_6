@@ -39,7 +39,8 @@ def make_runic(word):
 def main():
     charsheet_foldername = 'charsheets'
     charsheets_num = 10
-    fake = Faker("ru_RU")
+    min_skill_value = 8
+    max_skill_value = 14
     template_filepath = 'charsheet.svg'
     skills = [
         'Стремительный прыжок',
@@ -52,7 +53,7 @@ def main():
         'Огненный заряд'
     ]
     runic_skills = [make_runic(skill) for skill in skills]
-
+    fake = Faker("ru_RU")
     for num in range(1, charsheets_num + 1):
         skill_1, skill_2, skill_3 = sample(runic_skills, k=3)
         person = {
@@ -60,11 +61,11 @@ def main():
             'last_name': fake.last_name_male(),
             'town': fake.city(),
             'job': fake.job(),
-            'strength': randint(8, 14),
-            'agility': randint(8, 14),
-            'endurance': randint(8, 14),
-            'intelligence': randint(8, 14),
-            'luck': randint(8, 14),
+            'strength': randint(min_skill_value, max_skill_value),
+            'agility': randint(min_skill_value, max_skill_value),
+            'endurance': randint(min_skill_value, max_skill_value),
+            'intelligence': randint(min_skill_value, max_skill_value),
+            'luck': randint(min_skill_value, max_skill_value),
             'skill_1': skill_1,
             'skill_2': skill_2,
             'skill_3': skill_3
