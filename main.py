@@ -38,7 +38,7 @@ def make_runic(word):
 
 def main():
     charsheet_foldername = 'charsheets'
-    charsheet_num = 10
+    charsheets_num = 10
     fake = Faker("ru_RU")
     template_filepath = 'charsheet.svg'
     skills = [
@@ -53,7 +53,7 @@ def main():
     ]
     runic_skills = [make_runic(skill) for skill in skills]
 
-    for num in range(charsheet_num):
+    for num in range(1, charsheets_num + 1):
         skill_1, skill_2, skill_3 = sample(runic_skills, k=3)
         person = {
             'first_name': fake.first_name_male(),
