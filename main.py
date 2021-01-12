@@ -1,9 +1,23 @@
 import os
-from random import randint, sample
+from random import randint, sample, choice
 
 from faker import Faker
 
 from file_operations import render_template, read_file
+
+
+def generate_male_char(fake):
+    return {
+        'first_name': fake.first_name_male(),
+        'last_name': fake.last_name_male(),
+    }
+
+
+def generate_female_char(fake):
+    return {
+        'first_name': fake.first_name_female(),
+        'last_name': fake.last_name_female(),
+    }
 
 
 def make_runic(word):
@@ -56,22 +70,23 @@ def main():
     fake = Faker("ru_RU")
     for num in range(1, charsheets_num + 1):
         skill_1, skill_2, skill_3 = sample(runic_skills, k=3)
-        person = {
-            'first_name': fake.first_name_male(),
-            'last_name': fake.last_name_male(),
-            'town': fake.city(),
-            'job': fake.job(),
-            'strength': randint(min_skill_value, max_skill_value),
-            'agility': randint(min_skill_value, max_skill_value),
-            'endurance': randint(min_skill_value, max_skill_value),
-            'intelligence': randint(min_skill_value, max_skill_value),
-            'luck': randint(min_skill_value, max_skill_value),
-            'skill_1': skill_1,
-            'skill_2': skill_2,
-            'skill_3': skill_3
-        }
+        character = choice([generate_male_char(fake), generate_female_char(fake)])
+        character.update(
+            {
+                'town': fake.city(),
+                'job': fake.job(),
+                'strength': randint(min_skill_value, max_skill_value),
+                'agility': randint(min_skill_value, max_skill_value),
+                'endurance': randint(min_skill_value, max_skill_value),
+                'intelligence': randint(min_skill_value, max_skill_value),
+                'luck': randint(min_skill_value, max_skill_value),
+                'skill_1': skill_1,
+                'skill_2': skill_2,
+                'skill_3': skill_3
+            }
+        )
         charsheet_filename = os.path.join(charsheet_foldername, f'charsheet_{num}.svg')
-        render_template(template_filepath, charsheet_filename, person)
+        render_template(template_filepath, charsheet_filename, character)
 
 
 if __name__ == '__main__':
