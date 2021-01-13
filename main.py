@@ -6,20 +6,6 @@ from faker import Faker
 from file_operations import render_template, read_file
 
 
-def generate_male_char(fake):
-    return {
-        'first_name': fake.first_name_male(),
-        'last_name': fake.last_name_male(),
-    }
-
-
-def generate_female_char(fake):
-    return {
-        'first_name': fake.first_name_female(),
-        'last_name': fake.last_name_female(),
-    }
-
-
 def make_runic(word):
     letter_mapping = {
         'а': 'а͠', 'б': 'б̋', 'в': 'в͒͠',
@@ -70,7 +56,15 @@ def main():
     fake = Faker("ru_RU")
     for num in range(1, charsheets_num + 1):
         skill_1, skill_2, skill_3 = sample(runic_skills, k=3)
-        character = choice([generate_male_char(fake), generate_female_char(fake)])
+        male_char = {
+            'first_name': fake.first_name_male(),
+            'last_name': fake.last_name_male(),
+        }
+        female_char = {
+            'first_name': fake.first_name_female(),
+            'last_name': fake.last_name_female(),
+        }
+        character = choice(male_char, female_char)
         character.update(
             {
                 'town': fake.city(),
